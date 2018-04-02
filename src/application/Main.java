@@ -1,7 +1,10 @@
 package application;
 	
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Group;
@@ -46,7 +49,7 @@ public class Main extends Application {
 	private String[] tags;
 	private Button[] tagButton;
 	private Group linkAnimation;
-	private Label label;
+	private Label label, appTitle;
 	
 	private Animation animation;
 	
@@ -75,10 +78,12 @@ public class Main extends Application {
 		logoContainer.getChildren().add(logo);
 		logoContainer.setAlignment(Pos.CENTER);
 		
+		// app title
+		appTitle = new Label("Image Query Search");
+		appTitle.setMaxHeight(10);
+		
 		// imageView
 		imageView = new ImageView();
-//		imageView.setX(10);
-//		imageView.setY(10);
 		imageView.setFitHeight(400);
 		imageView.setFitWidth(400);
 		imageView.maxHeight(400);
@@ -182,9 +187,6 @@ public class Main extends Application {
 		
 		linksLayout = new VBox();
 		linksLayout.setAlignment(Pos.CENTER_LEFT);
-//		linksLayout.setPrefWidth(1000);
-//		linksLayout.prefWidthProperty().bind(top.prefWidthProperty());
-//		linksLayout.maxWidthProperty().bind(top.maxWidthProperty());
 		
 		// adding scrolling functionality to mainLayout and linksLayout
 		mainScroll = new ScrollPane();
@@ -194,7 +196,7 @@ public class Main extends Application {
 
 		top.getChildren().addAll(imageContainer, controlLayout);
 
-		mainLayout.getChildren().addAll(logoContainer, top,linkAnimation, linksLayout);
+		mainLayout.getChildren().addAll(logoContainer,appTitle, top,linkAnimation, linksLayout);
 		VBox.setMargin(top, new Insets(20, 0, 20, 0));
 		VBox.setMargin(logoContainer, new Insets(20, 20, 0, 20));
 
@@ -218,6 +220,7 @@ public class Main extends Application {
 		uploadButton.getStyleClass().add("button1");
 		detectButton.getStyleClass().add("button1");
 		label.getStyleClass().add("label");
+		appTitle.getStyleClass().add("app-title");
 	}
 	
 	
@@ -256,6 +259,18 @@ public class Main extends Application {
 			public void handle(WorkerStateEvent arg0) {
 				// TODO Auto-generated method stub
 				
+				// creating invalidaton listener for autoscroll
+				
+				InvalidationListener listener = new InvalidationListener() {
+					
+					@Override
+					public void invalidated(Observable arg0) {
+						// TODO Auto-generated method stub
+						mainScroll.setVvalue(1.0);
+					}
+				};
+				
+				
 				animation.stopAnimation();
 				linkAnimation.getChildren().clear();
 				ArrayList<WebParserService.Pair> list = webParserService.list;
@@ -274,10 +289,21 @@ public class Main extends Application {
 					if (swich && pair.isValid()) {
 						MyHyperlink link = new MyHyperlink(pair.text+"\n", pair.uri);
 						MyHyperlink space = new MyHyperlink("", "");
-						linksLayout.getChildren().addAll(link, space);
+						FadeTransition ft = new FadeTransition(Duration.millis(2000));
+						ft.setFromValue(0.0);
+						ft.setToValue(1.0);
 						
+						mainLayout.heightProperty().addListener(listener);
+						
+						linksLayout.getChildren().addAll(link, space);
+						ft.setNode(link);
+						ft.play();
+						
+//						mainLayout.heightProperty().removeListener(listener);
 					}
 				}
+				
+				
 			}
 		});
     	webParserService.start();

@@ -7,7 +7,7 @@ public class Dot extends Circle{
 	
 	public Dot(double x, double y) {
 		super();
-		this.setRadius(10.0f);
+		this.setRadius(5.0f);
 		this.setCenterX(x);
 		this.setCenterY(y);
 		this.setStrokeWidth(20);

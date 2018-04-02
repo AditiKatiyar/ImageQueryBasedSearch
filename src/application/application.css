@@ -5,6 +5,10 @@
 	-fx-border-color: #424242;
 }
 
+.app-title{
+	-fx-text-fill: #BDBDBD;
+}
+
 .top{
 	-fx-alignment: center ;	
 	-fx-background-color: #FFFFFF;
@@ -16,6 +20,7 @@
 	-fx-pref-height: 12.0cm ;
 	-fx-pref-width: 15.0cm ;
 	-fx-max-height: 12.0cm;
+	-fx-min-height: 12.0cm;
 	-fx-border-color: #0097a7;
 	-fx-border-width: 0.1cm;
 	-fx-border-radius: 0.2cm ;
@@ -36,9 +41,6 @@
 	-fx-padding: 0.0cm 3.0cm 0.0cm 3.0cm ;
 	-fx-pref-width: 25.0cm;
 	-fx-max-width: 25.0cm;	
-}
-
-.image-view{
 }
 
 .control1{
@@ -77,6 +79,28 @@
 	-fx-background-color: #0097a7;
 	-fx-border-radius: 0.3cm;
 	-fx-border-color: #0097a7;
+	-fx-border-style: solid outside ;
+	-fx-border-width: 0.1cm;
+	-fx-text-fill: white ;
+	-fx-min-width: 3.0cm;
+	-fx-pref-width: 4.0cm;
+}
+
+.button2:hover{
+	-fx-background-color: #00acc1;
+	-fx-border-radius: 0.3cm;
+	-fx-border-color: #00acc1;
+	-fx-border-style: solid outside ;
+	-fx-border-width: 0.1cm;
+	-fx-text-fill: white ;
+	-fx-min-width: 3.0cm;
+	-fx-pref-width: 4.0cm;
+}
+
+.button2:active{
+	-fx-background-color: #00acc1;
+	-fx-border-radius: 0.3cm;
+	-fx-border-color: #00acc1;
 	-fx-border-style: solid outside ;
 	-fx-border-width: 0.1cm;
 	-fx-text-fill: white ;
